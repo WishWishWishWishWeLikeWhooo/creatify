@@ -1,0 +1,114 @@
+<!-- app/templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block page_title %}Welcome, {{ current_user.username }}!{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Card 1: Generated Texts -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ generated_text_count }}</h3>
+                <p>Generated Texts</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <a href="{{ url_for('main.generate_text_route') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+
+    <!-- Card 2: Edited Videos -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ edited_video_count }}</h3>
+                <p>Edited Videos</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-video"></i>
+            </div>
+            <a href="{{ url_for('main.edit_video_route') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+
+    <!-- Card 3: Created Graphics -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>{{ created_graphic_count }}</h3>
+                <p>Created Graphics</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-image"></i>
+            </div>
+            <a href="{{ url_for('main.create_graphic_route') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+
+    <!-- Card 4: Trend Analyses -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ trends_count }}</h3>
+                <p>Trend Analyses</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <a href="{{ url_for('main.trends_route') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<!-- /.row -->
+
+<!-- Chart -->
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Text Generation Statistics</h3>
+    </div>
+    <div class="card-body">
+        <canvas id="textChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+    </div>
+</div>
+<!-- /.card -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('textChart').getContext('2d');
+        var textChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels | tojson }},
+                datasets: [{
+                    label: 'Generated Texts',
+                    data: {{ chart_data | tojson }},
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision:0
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

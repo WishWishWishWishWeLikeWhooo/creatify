@@ -1,0 +1,51 @@
+<!-- app/templates/trends.html -->
+{% extends "base.html" %}
+
+{% block title %}Trend Analysis{% endblock %}
+{% block page_title %}Trend Analysis{% endblock %}
+
+{% block content %}
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">Trend Analysis</h3>
+    </div>
+    <!-- /.card-header -->
+    <form method="POST" novalidate>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="keyword">Keyword</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter keyword" required>
+            </div>
+            <div class="form-group">
+                <label for="timeframe">Timeframe</label>
+                <select class="form-control" id="timeframe" name="timeframe">
+                    <option value="today 12-m">Last 12 Months</option>
+                    <option value="today 3-m">Last 3 Months</option>
+                    <option value="today 1-m">Last Month</option>
+                </select>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-secondary">Get Trends</button>
+        </div>
+    </form>
+</div>
+<!-- /.card -->
+
+{% if trends %}
+    <div class="card card-info mt-4">
+        <div class="card-header">
+            <h3 class="card-title">Trends for "{{ trends.keyword }}" over "{{ trends.timeframe }}"</h3>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for trend in trends.trends %}
+                    <li>{{ trend.name }} - {{ trend.volume }} mentions</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- /.card -->
+{% endif %}
+{% endblock %}

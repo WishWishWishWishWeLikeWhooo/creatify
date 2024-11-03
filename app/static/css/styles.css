@@ -1,0 +1,74 @@
+/* app/static/css/styles.css */
+
+/* Общие стили */
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Настройка карточек */
+.card {
+    border-radius: 10px;
+}
+
+/* Настройка кнопок */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Настройка навигационной панели */
+.main-header .navbar {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Настройка боковой навигации */
+.main-sidebar {
+    background-color: #343a40;
+}
+
+.main-sidebar .brand-link {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.main-sidebar .nav-link {
+    color: #adb5bd;
+}
+
+.main-sidebar .nav-link.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.main-sidebar .nav-link:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Настройка контента */
+.content-wrapper {
+    background-color: #f4f6f9;
+    min-height: 100vh;
+}
+
+/* Настройка футера */
+.main-footer {
+    background-color: #343a40;
+    color: #adb5bd;
+}

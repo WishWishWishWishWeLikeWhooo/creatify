@@ -1,0 +1,100 @@
+<!-- app/templates/my_graphics.html -->
+{% extends "base.html" %}
+
+{% block title %}My Graphics{% endblock %}
+{% block page_title %}My Created Graphics{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">My Graphics</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        {% if graphics.items %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Template</th>
+                        <th>Text</th>
+                        <th>File</th>
+                        <th>Creation Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for graphic in graphics.items %}
+                        <tr>
+                            <td>{{ graphic.id }}</td>
+                            <td>{{ graphic.template }}</td>
+                            <td>{{ graphic.text }}</td>
+                            <td>{{ graphic.output_filename }}</td>
+                            <td>{{ graphic.timestamp.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>
+                                <a href="{{ url_for('main.export_graphic', graphic_id=graphic.id) }}" class="btn btn-sm btn-primary" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <form action="{{ url_for('main.delete_graphic', graphic_id=graphic.id) }}" method="POST" style="display:inline;">
+                                    {{ csrf_token() }}
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete" onclick="return confirm('Are you sure you want to delete this graphic?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if graphics.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('main.my_graphics', page=graphics.prev_num) }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for page_num in graphics.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+                        {% if page_num %}
+                            {% if page_num == graphics.page %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('main.my_graphics', page=page_num) }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link" href="#">…</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if graphics.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('main.my_graphics', page=graphics.next_num) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+            <p>You have not created any graphics yet.</p>
+        {% endif %}
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+{% endblock %}
